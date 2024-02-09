@@ -1,34 +1,41 @@
 package com.anleus.authservice.services;
 
-import com.anleus.authservice.dto.CredentialsDto;
-import com.anleus.authservice.dto.UserDto;
-import com.anleus.authservice.entities.User;
-import com.anleus.authservice.exceptions.AuthException;
-import com.anleus.authservice.mappers.UserMapper;
-import com.anleus.authservice.repository.UserRespository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import com.anleus.authservice.models.AppUser;
+import com.anleus.authservice.models.Role;
+import com.anleus.authservice.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.CharBuffer;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
 
-    private final UserRespository userRespository;
-    private final PasswordEncoder passwordEncoder;
-    private final UserMapper userMapper;
+    @Autowired
+    private PasswordEncoder encoder;
 
-    public UserDto loginUser(CredentialsDto credentialsDto) {
-        User user = userRespository.findByUsername(credentialsDto.username())
-                .orElseThrow(() -> new AuthException("Unknown user", HttpStatus.NOT_FOUND));
+    @Autowired
+    private UserRepository userRepository;
 
-        if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.password()),
-                user.getPassword())) {
-            return userMapper.toUserDto(user);
-        }
-        throw new AuthException("Invalid password", HttpStatus.BAD_REQUEST);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("Using user service");
+
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("user not valid"));
+    }
+
+    public void createNewUser() {
+        System.out.println("creating new user");
+        AppUser newUser = new AppUser();
+        newUser.setUsername("algo");
+        newUser.setPassword("algo");
+        newUser.setEmail("mail@mamamama.com");
+
+        userRepository.save(newUser);
     }
 }
