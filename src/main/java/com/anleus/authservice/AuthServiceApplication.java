@@ -23,7 +23,6 @@ public class AuthServiceApplication {
 	}
 
 	@Bean
-	@Transactional
 	CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder encoder) {
 		return args -> {
 			if (roleRepository.findByAuthority("ADMIN").isPresent()) return;
@@ -35,7 +34,7 @@ public class AuthServiceApplication {
 			roles.add(adminRole);
 
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			AppUser admin = new AppUser(1L, timestamp, "admin", "mail@mail.com", encoder.encode("password"), roles);
+			AppUser admin = new AppUser("admin", "mail@mail.com", encoder.encode("password"), roles);
 			userRepository.saveAndFlush(admin);
 		};
 	}

@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Set;
 
@@ -23,12 +25,13 @@ public class AppUser implements UserDetails {
     private Long id;
 
     @Column(name = "created_at")
+    @CreationTimestamp
     private Timestamp createdAt;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
@@ -40,6 +43,14 @@ public class AppUser implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> authorities;
+
+    public AppUser(String username, String email, String password, Set<Role> authorities)
+    {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.authorities = authorities;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

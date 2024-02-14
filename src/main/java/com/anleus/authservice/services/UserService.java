@@ -30,12 +30,12 @@ public class UserService implements UserDetailsService {
     }
 
     public void createNewUser() {
-        System.out.println("creating new user");
+        /*System.out.println("creating new user");
         AppUser newUser = new AppUser();
         newUser.setUsername("algo");
         newUser.setPassword("algo");
         newUser.setEmail("mail@mamamama.com");
 
-        userRepository.save(newUser);
+        userRepository.save(newUser);*/
     }
 }

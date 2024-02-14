@@ -17,7 +17,7 @@ public class UserController {
 
     @GetMapping("/")
     public String helloUser() {
-        userService.createNewUser();
+        //userService.createNewUser();
         return "User access level";
     }
 }
