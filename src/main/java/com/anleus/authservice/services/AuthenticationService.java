@@ -1,7 +1,7 @@
 package com.anleus.authservice.services;
 
 import com.anleus.authservice.models.AppUser;
-import com.anleus.authservice.models.LoginResponseTs;
+import com.anleus.authservice.models.ts.LoginResponseTs;
 import com.anleus.authservice.models.Role;
 import com.anleus.authservice.repositories.RoleRepository;
 import com.anleus.authservice.repositories.UserRepository;
@@ -32,7 +32,6 @@ public class AuthenticationService {
     @Autowired
     private TokenService tokenService;
 
-    //TODO change parameters for an AppUserTs object
     public AppUser registerUser(String username, String email, String password) {
         String encodedPassword = passwordEncoder.encode(password);
 
@@ -46,8 +45,7 @@ public class AuthenticationService {
     public LoginResponseTs loginUser(String username, String password) {
         try {
             Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
-            );
+                    new UsernamePasswordAuthenticationToken(username, password));
             String token = tokenService.generateJwt(auth);
 
             AppUser loggedUser = userRepository.findByUsername(username).orElse(null);

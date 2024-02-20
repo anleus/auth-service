@@ -25,17 +25,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("Using user service");
-
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("user not valid"));
-    }
-
-    public void createNewUser() {
-        /*System.out.println("creating new user");
-        AppUser newUser = new AppUser();
-        newUser.setUsername("algo");
-        newUser.setPassword("algo");
-        newUser.setEmail("mail@mamamama.com");
-
-        userRepository.save(newUser);*/
     }
 }

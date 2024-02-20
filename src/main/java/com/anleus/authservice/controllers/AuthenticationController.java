@@ -1,9 +1,9 @@
 package com.anleus.authservice.controllers;
 
 import com.anleus.authservice.models.AppUser;
-import com.anleus.authservice.models.LoginResponseTs;
-import com.anleus.authservice.models.LoginTs;
-import com.anleus.authservice.models.RegistrationTs;
+import com.anleus.authservice.models.ts.LoginResponseTs;
+import com.anleus.authservice.models.ts.LoginTs;
+import com.anleus.authservice.models.ts.RegistrationTs;
 import com.anleus.authservice.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

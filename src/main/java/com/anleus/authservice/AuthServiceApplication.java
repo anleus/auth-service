@@ -33,7 +33,6 @@ public class AuthServiceApplication {
 			Set<Role> roles = new HashSet<>();
 			roles.add(adminRole);
 
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			AppUser admin = new AppUser("admin", "mail@mail.com", encoder.encode("password"), roles);
 			userRepository.saveAndFlush(admin);
 		};
